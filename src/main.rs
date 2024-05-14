@@ -2,6 +2,8 @@
 
 // region:    --- Modules
 
+// #[cfg(test)]
+mod _dev_util;
 mod config;
 mod ctx;
 mod error;
@@ -32,6 +34,8 @@ async fn main() -> Result<()> {
 		.with_env_filter(EnvFilter::from_default_env())
 		.init();
 
+	// Initialize DB
+	_dev_util::init_dev().await;
 	// Initialize ModelManager.
 
 	let mm = ModelManager::new().await?;
