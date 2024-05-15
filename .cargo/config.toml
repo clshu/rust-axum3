@@ -14,6 +14,12 @@ RUST_LOG = "rust_web_app=debug"
 # Keys and password for local development only.
 SERVICE_DB_URL = "postgres://app_user:dev_only_pwd@localhost/app_db"
 
+SERVICE_PWD_KEY = "ODc2vMvLLUgEtsYrcnAza4bkZuLXTncB9RuUlUJV_fktx36eNq6cbFCoocSl5Gxt9iuxl9YJ6MFVvOKepY6cjA"
+
+SERVICE_TOKEN_KEY = "gV4PY5-pcmEWWhKjXneaJa4dsBSnLcb5pIaQUizshFGYE1td4TpsQCBtVCrzoCX8xmKErQ3Jkb3JAGuG0sDdcg"
+# in seconds, 30 mins    
+SERVICE_TOKEN_DURATION_SEC = "1800" # 30 min
+
 # -- ConfigMap
 # This will be relative to Cargo.toml
 # To deploy image, probably use absolute path.

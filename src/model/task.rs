@@ -5,7 +5,6 @@ use crate::{
 use serde::{Deserialize, Serialize};
 use sqlb::Fields;
 use sqlx::FromRow;
-use tracing::field;
 
 use super::base::{self, DbBmc};
 // region:    --- Task Types
@@ -25,10 +24,6 @@ pub struct TaskForCreate {
 	pub title: String,
 }
 
-impl DbBmc for TaskBmc {
-	const TABLE: &'static str = "task";
-}
-
 #[derive(Deserialize, Fields)]
 pub struct TaskForUpdate {
 	pub title: Option<String>,
@@ -37,6 +32,10 @@ pub struct TaskForUpdate {
 
 // region:    --- TaskBmc
 pub struct TaskBmc;
+
+impl DbBmc for TaskBmc {
+	const TABLE: &'static str = "task";
+}
 
 impl TaskBmc {
 	pub async fn create(
