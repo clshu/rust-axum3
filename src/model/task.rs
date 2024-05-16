@@ -9,7 +9,7 @@ use sqlx::FromRow;
 use super::base::{self, DbBmc};
 // region:    --- Task Types
 
-#[derive(Debug, Clone, Fields, FromRow)]
+#[derive(Debug, Clone, Fields, FromRow, Serialize)]
 pub struct Task {
 	pub id: i64,
 	pub title: String,
