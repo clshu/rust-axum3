@@ -131,6 +131,7 @@ mod tests {
 	use serial_test::serial;
 
 	#[tokio::test]
+	// #[serial]
 	async fn test_first_by_username_ok() -> Result<()> {
 		// Setup & Fixtures
 		let mm = _dev_util::init_test().await;

@@ -81,8 +81,8 @@ mod tests {
 	use anyhow::Result;
 	use serial_test::serial;
 
-	#[serial]
 	#[tokio::test]
+	// #[serial]
 	async fn test_create_ok() -> Result<()> {
 		// Setup & Fixtures
 		let mm = _dev_util::init_test().await;
@@ -106,8 +106,8 @@ mod tests {
 		Ok(())
 	}
 
-	#[serial]
 	#[tokio::test]
+	// #[serial]
 	async fn test_get_err_not_found() -> Result<()> {
 		// Setup & Fixtures
 		let mm = _dev_util::init_test().await;
@@ -132,8 +132,8 @@ mod tests {
 		Ok(())
 	}
 
-	#[serial]
 	#[tokio::test]
+	// #[serial]
 	async fn test_delete_err_not_found() -> Result<()> {
 		// Setup & Fixtures
 		let mm = _dev_util::init_test().await;
@@ -158,8 +158,8 @@ mod tests {
 		Ok(())
 	}
 
-	#[serial]
 	#[tokio::test]
+	// #[serial]
 	async fn test_list_ok() -> Result<()> {
 		// Setup & Fixtures
 		let mm = _dev_util::init_test().await;
@@ -186,8 +186,8 @@ mod tests {
 		Ok(())
 	}
 
-	#[serial]
 	#[tokio::test]
+	// #[serial]
 	async fn test_update_ok() -> Result<()> {
 		// Setup & Fixtures
 		let mm = _dev_util::init_test().await;
