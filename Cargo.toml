@@ -6,7 +6,7 @@ rust-version = "1.70"
 authors = ["Jeremy Chone <jeremy.chone@gmail.com>"]
 license = "MIT OR Apache-2.0"
 description = "Rust10x rust-web-app production blueprint."
-homepage="https://rust10x.com/web-app"
+homepage = "https://rust10x.com/web-app"
 repository = "https://github.com/rust10x/rust-web-app"
 
 
@@ -23,8 +23,14 @@ axum = "0.6"
 tower-http = { version = "0.4", features = ["fs"] }
 tower-cookies = "0.9"
 # -- Data
-sqlx = { version = "0.7", features = [ "runtime-tokio", "postgres", "uuid" ] }
-sqlb = "0.4"
+sqlx = { version = "0.7", features = ["runtime-tokio", "postgres", "uuid"] }
+sea-query = "0.30"
+sea-query-binder = { version = "0.5.0", features = [
+  "sqlx-postgres",
+  "with-uuid",
+] }
+modql = { version = "0.3.10", features = ["with-sea-query"] }
+
 # -- Tracing
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
@@ -33,14 +39,14 @@ hmac = "0.12"
 sha2 = "0.10"
 # -- Others
 base64 = "0.21"
-uuid = {version = "1", features = ["v4","fast-rng",]}
+uuid = { version = "1", features = ["v4", "fast-rng"] }
 time = "0.3"
 strum_macros = "0.25"
-derive_more = {version = "1.0.0-beta", features = ["from"] }
+derive_more = { version = "1.0.0-beta", features = ["from"] }
 
 
 [dev-dependencies]
 anyhow = "1"
 httpc-test = "0.1"
 serial_test = "2"
-rand = "0.8" # For examples/gen-key
+rand = "0.8"       # For examples/gen-key
