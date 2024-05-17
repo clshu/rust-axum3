@@ -18,37 +18,44 @@ async fn main() -> Result<()> {
 	);
 	req_login.await?.print().await?;
 
-	let req_create_task = hc.do_post(
-		"/api/rpc",
-		json!({
-			"id": 1,
-			"method": "create_task",
-			"params": {
-				"data": {
-					"title": "task AAA"
+	// -- Create tasks
+	let mut task_ids: Vec<i64> = Vec::new();
+	for i in 0..=4 {
+		let req_create_task = hc.do_post(
+			"/api/rpc",
+			json!({
+				"id": 1,
+				"method": "create_task",
+				"params": {
+					"data": {
+						"title": format!("task AAA {i}")
+					}
 				}
-			}
-		}),
-	);
+			}),
+		);
 
-	req_create_task.await?.print().await?;
+		let res = req_create_task.await?;
+		task_ids.push(res.json_value::<i64>("/result/id")?)
+	}
 
 	let req_list_tasks = hc.do_post(
 		"/api/rpc",
 		json!({
 			"id": 1,
-			"method": "list_tasks"
+			"method": "list_tasks",
+			"params": {}
 		}),
 	);
 	req_list_tasks.await?.print().await?;
 
+	// -- Update task first task
 	let req_update_task = hc.do_post(
 		"/api/rpc",
 		json!({
 			"id": 1,
 			"method": "update_task",
 			"params": {
-				"id": 1008, // Hardcode the task id.
+				"id": task_ids[0], // Hardcode the task id.
 				"data": {
 					"title": "task BB"
 				}
@@ -57,14 +64,7 @@ async fn main() -> Result<()> {
 	);
 	req_update_task.await?.print().await?;
 
-	let req_list_tasks1 = hc.do_post(
-		"/api/rpc",
-		json!({
-			"id": 1,
-			"method": "list_tasks"
-		}),
-	);
-	req_list_tasks1.await?.print().await?;
+	// -- Delete 2nd task
 
 	let req_delete_task = hc.do_post(
 		"/api/rpc",
@@ -72,28 +72,62 @@ async fn main() -> Result<()> {
 			"id": 1,
 			"method": "delete_task",
 			"params": {
-				"id": 1008 // Harcode the task id
+				"id": task_ids[1] // Harcode the task id
 			}
 		}),
 	);
 	req_delete_task.await?.print().await?;
 
-	let req_list_tasks2 = hc.do_post(
+	// -- list Tasks with filters
+	let req_list_tasks = hc.do_post(
 		"/api/rpc",
 		json!({
 			"id": 1,
-			"method": "list_tasks"
+			"method": "list_tasks",
+			"params": {
+				"filters": [
+					{
+						"title": {"$endsWith": "BB"}
+					},
+					{
+						"id": {"$in": [task_ids[2], task_ids[3]]}
+					}
+				],
+				"list_options": {
+					"order_bys": "!id"
+				}
+			}
 		}),
 	);
-	req_list_tasks2.await?.print().await?;
+	req_list_tasks.await?.print().await?;
 
-	let req_logoff = hc.do_post(
-		"/api/logoff",
-		json!({
-			"logoff": true
-		}),
-	);
-	req_logoff.await?.print().await?;
+	// -- Clean up
+	// Remove 2nd id whihc was deleted earlier
+	task_ids.remove(1);
+
+	for id in task_ids {
+		let req_delete_task = hc.do_post(
+			"/api/rpc",
+			json!({
+				"id": 1,
+				"method": "delete_task",
+				"params": {
+					"id": id
+				}
+			}),
+		);
+		req_delete_task.await?;
+	}
+
+	// let req_list_tasks = hc.do_post(
+	// 	"/api/rpc",
+	// 	json!({
+	// 		"id": 1,
+	// 		"method": "list_tasks",
+	// 		"params": {}
+	// 	}),
+	// );
+	// req_list_tasks.await?.print().await?;
 
 	Ok(())
 }
