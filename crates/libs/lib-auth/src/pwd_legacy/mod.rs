@@ -6,7 +6,7 @@ mod hmac_hasher;
 pub use self::error::{Error, Result};
 
 use crate::auth_config;
-use crate::pwd::hmac_hasher::hmac_sha512_hash;
+use crate::pwd_legacy::hmac_hasher::hmac_sha512_hash;
 use uuid::Uuid;
 
 // endregion: --- Modules
